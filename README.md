@@ -1,6 +1,8 @@
 # EthermineInfo
 ## A custom component for [HomeAssistant](https://github.com/home-assistant/core) 
 
+<a href="https://www.buymeacoffee.com/tomprior" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png"></a>
+
 # Goals
 
 * Learn some more Python 🐍
