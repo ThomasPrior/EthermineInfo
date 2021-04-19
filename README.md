@@ -33,3 +33,10 @@
       ❌Amount
   
       ❌Transaction hash
+
+## Things you should know
+
+* I'm new at this, things might not work right away.
+* There are limits on how many requests can be made to Ethermine's API and therefore the data retrieved by EthermineInfo will be updated periodically and may be out of date by the time you look at it.
+* Please do not use EthermineInfo in isolation to make decisions about your cryptocurrency holdings.
+* EthermineInfo only reads the statistics of the provided miner.
