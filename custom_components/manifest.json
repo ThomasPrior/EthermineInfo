@@ -1,0 +1,9 @@
+{
+        "domain": "ethermineinfo",
+        "name": "EthermineInfo",
+        "documentation": "https://github.com/ThomasPrior/EthermineInfo/",
+        "requirements": [],
+        "version": "0.0.1",
+        "dependencies": [],
+        "codeowners": ["@thomasprior"]
+}
