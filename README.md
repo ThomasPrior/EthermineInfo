@@ -66,6 +66,16 @@ sensor:
 
 Multiple addresses can be configured.
 
+## Templates
+
+You can create a template sensor for any of the attributes returned by EthermineInfo. For example:
+
+Stale shares sensor:
+```{{ states.sensor.ethermineinfo_miner_address.attributes['stale_shares'] }}```
+
+Current hashrate:
+```{{ states.sensor.ethermineinfo_miner_address.attributes['current_hashrate'] }}```
+
 ## How does it look?
 
 ![image](https://user-images.githubusercontent.com/34111848/115997170-18a74100-a5da-11eb-8975-d14a46a1cca4.png)
