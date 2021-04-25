@@ -68,4 +68,5 @@ Multiple addresses can be configured.
 ## Credits
 
 [@heyajohnny's](https://github.com/heyajohnny) [CryptoInfo](https://github.com/heyajohnny/cryptoinfo) from which this component was born.
+
 [W3Schools](https://www.w3schools.com/python/default.asp) for being an invaluable learning resource.
