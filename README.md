@@ -14,19 +14,19 @@
   
       ❌Unconfirmed balance
   
-      ❌Reported hash rate
+      ✔ Reported hash rate
   
       ❌Average hash rate
   
-      ❌Current hash rate
+      ✔ Current hash rate
   
-      ❌Valid shares
+      ✔ Valid shares
   
-      ❌Invalid shares
+      ✔ Invalid shares
   
-      ❌Stale shares
+      ✔ Stale shares
   
-      ❌Active workers
+      ✔ Active workers
      
   * Payouts
   
@@ -42,3 +42,8 @@
 * There are limits on how many requests can be made to Ethermine's API and therefore the data retrieved by EthermineInfo will be updated periodically and may be out of date by the time you look at it.
 * Please do not use EthermineInfo in isolation to make decisions about your cryptocurrency holdings.
 * EthermineInfo only reads the statistics of the provided miner.
+
+## Credits
+
+@heyajohnny's [CryptoInfo](https://github.com/heyajohnny/cryptoinfo) from which this component was born.
+W3Schools for being an invaluable learning resource.
