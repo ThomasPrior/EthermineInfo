@@ -2,7 +2,7 @@
   "domain": "ethermineinfo",
   "name": "EthermineInfo",
   "version": "0.0.1",
-  "documentation": "https://github.com/ThomasPrior/EthermineInfo,
+  "documentation": "https://github.com/ThomasPrior/EthermineInfo",
   "dependencies": [],
   "codeowners": ["@thomasprior"],
   "requirements": [],
