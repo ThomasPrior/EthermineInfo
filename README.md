@@ -69,6 +69,11 @@ Multiple addresses can be configured.
 
 ![image](https://user-images.githubusercontent.com/34111848/115997170-18a74100-a5da-11eb-8975-d14a46a1cca4.png)
 
+## Discussion
+
+[Talk about EthermineInfo here](https://community.home-assistant.io/t/my-first-custom-component-ethermineinfo/302734)
+Pull requests and constructive criticism are always welcome.
+
 ## Credits
 
 [@heyajohnny's](https://github.com/heyajohnny) [CryptoInfo](https://github.com/heyajohnny/cryptoinfo) from which this component was born.
