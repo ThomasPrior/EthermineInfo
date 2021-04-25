@@ -86,6 +86,7 @@ Unpaid amount:
 ## Discussion
 
 [Talk about EthermineInfo here](https://community.home-assistant.io/t/my-first-custom-component-ethermineinfo/302734)
+
 Pull requests and constructive criticism are always welcome.
 
 ## Credits
