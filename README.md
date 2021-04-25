@@ -1,6 +1,10 @@
 # EthermineInfo
 ## A custom component for [HomeAssistant](https://github.com/home-assistant/core) 
 
+Provides data from [Ethermine.org](https://ethermine.org/) on a specified miner.
+
+If this has been of use, please consider funding my caffeine habit:
+
 <a href="https://www.buymeacoffee.com/tomprior" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png"></a>
 
 # Goals
