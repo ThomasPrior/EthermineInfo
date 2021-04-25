@@ -15,7 +15,7 @@ If this has been of use, please consider funding my caffeine habit:
 * Create sensor items for Ethermine items:
   * Current statistics
   
-      ❌Unpaid balance
+      ✔ Unpaid balance
   
       ❌Unconfirmed balance
   
