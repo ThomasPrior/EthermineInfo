@@ -6,5 +6,6 @@
   "dependencies": [],
   "codeowners": ["@thomasprior"],
   "requirements": [],
-  "iot_class": "cloud_polling"
+  "iot_class": "cloud_polling",
+  "issue_tracker": "https://github.com/ThomasPrior/EthermineInfo/issues"
 }
