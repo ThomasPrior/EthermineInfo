@@ -35,11 +35,11 @@ If this has been of use, please consider funding my caffeine habit:
      
   * Payouts
   
-      ❌Paid on
+      ✔ Paid on
   
-      ❌Amount
+      ✔ Amount
   
-      ❌Transaction hash
+      ✔ Transaction hash
 
 ## Things you should know
 
