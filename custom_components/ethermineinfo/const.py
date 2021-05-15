@@ -16,6 +16,11 @@ ATTR_REPORTED_HASHRATE = "reported_hashrate"
 ATTR_STALE_SHARES = "stale_shares"
 ATTR_UNPAID = "unpaid"
 ATTR_VALID_SHARES = "valid_shares"
+ATTR_START_BLOCK = "start_block"
+ATTR_END_BLOCK = "end_block"
+ATTR_AMOUNT = "amount"
+ATTR_TXHASH = "txhash"
+ATTR_PAID_ON = "paid_on"
 
 API_ENDPOINT = "https://api.ethermine.org/miner/"
 
