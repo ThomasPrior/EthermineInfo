@@ -1,5 +1,5 @@
 # EthermineInfo
-[![hacs_badge](https://img.shields.io/badge/HACS-Custom-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
+[![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 ## A custom component for [HomeAssistant](https://github.com/home-assistant/core) 
 
 Provides data from [Ethermine.org](https://ethermine.org/) on a specified miner.
@@ -52,7 +52,15 @@ If this has been of use, please consider funding my caffeine habit:
 
 Copy the files in the /custom_components/ethermineinfo/ folder to: [homeassistant]/config/custom_components/ethermineinfo/
 
-HACS installation path coming soon!
+HACS users, you know what to do!
+In case you don't:
+
+1. Open HACS from your HomeAssistant sidebar
+2. Press the "Explore & Add Repositories"
+3. Enter "EthermineInfo" into the search box
+4. Press "EthermineInfo"
+5. Press "Install this repository in HACS"
+6. Don't forget to complete the configuration before restart HomeAssistant!
 
 ## Configuration
 
