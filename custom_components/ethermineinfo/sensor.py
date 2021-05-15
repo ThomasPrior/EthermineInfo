@@ -22,6 +22,11 @@ from .const import (
     ATTR_STALE_SHARES,
     ATTR_UNPAID,
     ATTR_VALID_SHARES,
+    ATTR_START_BLOCK,
+    ATTR_END_BLOCK,
+    ATTR_AMOUNT,
+    ATTR_TXHASH,
+    ATTR_PAID_ON
 )
 
 from homeassistant.components.sensor import PLATFORM_SCHEMA
@@ -83,7 +88,12 @@ class EthermineInfoSensor(Entity):
         self._valid_shares = None
         self._unit_of_measurement = "\u200b"
         self._error = None
-
+        self._start_block = None
+        self._end_block = None
+        self._amount = None
+        self._txhash = None
+        self._paid_on = None
+        
     @property
     def name(self):
         return self._name
@@ -102,22 +112,33 @@ class EthermineInfoSensor(Entity):
 
     @property
     def device_state_attributes(self):
-        return {ATTR_ACTIVE_WORKERS: self._active_workers, ATTR_CURRENT_HASHRATE: self._current_hashrate, ATTR_ERROR: self._error, ATTR_INVALID_SHARES: self._invalid_shares, ATTR_LAST_UPDATE: self._last_update, ATTR_REPORTED_HASHRATE: self._reported_hashrate, ATTR_STALE_SHARES: self._stale_shares, ATTR_UNPAID: self._unpaid, ATTR_VALID_SHARES: self._valid_shares }
+        return {ATTR_ACTIVE_WORKERS: self._active_workers, ATTR_CURRENT_HASHRATE: self._current_hashrate, ATTR_ERROR: self._error, ATTR_INVALID_SHARES: self._invalid_shares, ATTR_LAST_UPDATE: self._last_update, ATTR_REPORTED_HASHRATE: self._reported_hashrate, ATTR_STALE_SHARES: self._stale_shares, ATTR_UNPAID: self._unpaid, ATTR_VALID_SHARES: self._valid_shares, ATTR_START_BLOCK: self._start_block, ATTR_END_BLOCK: self._end_block, ATTR_AMOUNT: self._amount, ATTR_TXHASH: self._txhash, ATTR_PAID_ON: self._paid_on }
 
     def _update(self):
-        url = (
+        dashboardurl = (
             API_ENDPOINT
             + self.miner_address
             + "/dashboard"
         )
-        # sending get request
-        r = requests.get(url=url)
+        payouturl = (
+            API_ENDPOINT
+            + self.miner_address
+            + "/payouts"
+        )
+        # sending get request to dashboard endpoint
+        r = requests.get(url=dashboardurl)
         # extracting response json
         self.data = r.json()
-        etherminedata = self.data
+        dashboarddata = self.data
+
+        # sending get request to dashboard endpoint
+        r2 = requests.get(url=payouturl)
+        # extracting response json
+        self.data2 = r2.json()
+        payoutdata = self.data2
 
         try:
-            if etherminedata:
+            if dashboarddata:
                 self._error = False
                 # Set the values of the sensor
                 self._last_update = datetime.today().strftime("%d-%m-%Y %H:%M")
@@ -125,13 +146,19 @@ class EthermineInfoSensor(Entity):
                 # set the attributes of the sensor
                 self._active_workers = r.json()['data']['currentStatistics']['activeWorkers']
                 self._current_hashrate = r.json()['data']['currentStatistics']['currentHashrate']
-                self._invalid_shares= r.json()['data']['currentStatistics']['invalidShares']
-                self._reported_hashrate= r.json()['data']['currentStatistics']['reportedHashrate']
-                self._stale_shares= r.json()['data']['currentStatistics']['staleShares']
-                self._unpaid= r.json()['data']['currentStatistics']['unpaid']
-                self._valid_shares= r.json()['data']['currentStatistics']['validShares']
+                self._invalid_shares = r.json()['data']['currentStatistics']['invalidShares']
+                self._reported_hashrate = r.json()['data']['currentStatistics']['reportedHashrate']
+                self._stale_shares = r.json()['data']['currentStatistics']['staleShares']
+                self._unpaid = r.json()['data']['currentStatistics']['unpaid']
+                self._valid_shares = r.json()['data']['currentStatistics']['validShares']
+                self._start_block = r2.json()['data'][0]['start']
+                self._end_block = r2.json()['data'][0]['end']
+                self._amount = r2.json()['data'][0]['amount']
+                self._txhash = r2.json()['data'][0]['txHash']
+                self._paid_on = datetime.fromtimestamp(int(r2.json()['data'][0]['paidOn'])).strftime('%d-%m-%Y %H:%M')
             else:
                 raise ValueError()
+
         except ValueError:
             self._state = None
             self._last_update = datetime.today().strftime("%d-%m-%Y %H:%M")
