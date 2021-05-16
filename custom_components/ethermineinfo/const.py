@@ -21,6 +21,7 @@ ATTR_END_BLOCK = "end_block"
 ATTR_AMOUNT = "amount"
 ATTR_TXHASH = "txhash"
 ATTR_PAID_ON = "paid_on"
+ATTR_AVERAGE_HASHRATE_24h = "average_hashrate_24h"
 
 API_ENDPOINT = "https://api.ethermine.org/miner/"
 
