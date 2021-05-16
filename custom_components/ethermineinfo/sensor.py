@@ -151,11 +151,12 @@ class EthermineInfoSensor(Entity):
                 self._stale_shares = r.json()['data']['currentStatistics']['staleShares']
                 self._unpaid = r.json()['data']['currentStatistics']['unpaid']
                 self._valid_shares = r.json()['data']['currentStatistics']['validShares']
-                self._start_block = r2.json()['data'][0]['start']
-                self._end_block = r2.json()['data'][0]['end']
-                self._amount = r2.json()['data'][0]['amount']
-                self._txhash = r2.json()['data'][0]['txHash']
-                self._paid_on = datetime.fromtimestamp(int(r2.json()['data'][0]['paidOn'])).strftime('%d-%m-%Y %H:%M')
+                if len(r2.json()['data']):
+                    self._start_block = r2.json()['data'][0]['start']
+                    self._end_block = r2.json()['data'][0]['end']
+                    self._amount = r2.json()['data'][0]['amount']
+                    self._txhash = r2.json()['data'][0]['txHash']
+                    self._paid_on = datetime.fromtimestamp(int(r2.json()['data'][0]['paidOn'])).strftime('%d-%m-%Y %H:%M')
             else:
                 raise ValueError()
 
