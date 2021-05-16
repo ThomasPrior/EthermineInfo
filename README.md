@@ -17,11 +17,11 @@ If this has been of use, please consider funding my caffeine habit:
   
       ✔ Unpaid balance
   
-      ❌Unconfirmed balance
+      ❌ Unconfirmed balance
   
       ✔ Reported hash rate
   
-      ❌Average hash rate
+      ❌ Average hash rate
   
       ✔ Current hash rate
   
@@ -32,6 +32,8 @@ If this has been of use, please consider funding my caffeine habit:
       ✔ Stale shares
   
       ✔ Active workers
+      
+      ❌ Balance in local currency
      
   * Payouts
   
@@ -40,6 +42,8 @@ If this has been of use, please consider funding my caffeine habit:
       ✔ Amount
   
       ✔ Transaction hash
+      
+      ❌ Value in local currency
 
 ## Things you should know
 
@@ -71,6 +75,29 @@ sensor:
     miner_address: (required) the address of your Ethermine miner
     currency_name: (required) the currency you would like your unpaid balance to be converted to 
 ````
+
+Please note that the Ethermine API accepts the address in two formats:
+
+- 42 characters beginning with 0x
+- 40 characters with the 0x removed
+
+Both can be configured, but the 42 character options *must* be encapsulated in quote marks. Failure to do so will just return "unknown" in HomeAssistant.
+
+Examples:
+
+```
+sensor:
+  - platform: ethermineinfo
+    miner_address: "0x1234567890123456789012345678901234567890"
+    currency_name: USD
+```
+
+```
+sensor:
+  - platform: ethermineinfo
+    miner_address: "1234567890123456789012345678901234567890"
+    currency_name: USD
+```
 
 Multiple addresses can be configured.
 
