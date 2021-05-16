@@ -4,6 +4,7 @@ CONF_ID = "id"
 CONF_CURRENCY_NAME = "currency_name"
 CONF_MINER_ADDRESS = "miner_address"
 CONF_UPDATE_FREQUENCY = "update_frequency"
+CONF_NAME_OVERRIDE = "name_override"
 
 SENSOR_PREFIX = "EthermineInfo "
 

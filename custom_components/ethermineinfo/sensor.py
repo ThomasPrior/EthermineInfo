@@ -11,6 +11,7 @@ from .const import (
     CONF_ID,
     CONF_MINER_ADDRESS,
     CONF_UPDATE_FREQUENCY,
+    CONF_NAME_OVERRIDE,
     SENSOR_PREFIX,
     API_ENDPOINT,
     ATTR_ACTIVE_WORKERS,
@@ -42,6 +43,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
         vol.Required(CONF_MINER_ADDRESS): cv.string,
         vol.Required(CONF_UPDATE_FREQUENCY, default=1): cv.string,
         vol.Optional(CONF_ID, default=""): cv.string,
+        vol.Optional(CONF_NAME_OVERRIDE, default=""): cv.string
     }
 )
 
@@ -53,13 +55,14 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     miner_address = config.get(CONF_MINER_ADDRESS).strip()
     currency_name = config.get(CONF_CURRENCY_NAME).strip()
     update_frequency = timedelta(minutes=(int(config.get(CONF_UPDATE_FREQUENCY))))
+    name_override = config.get(CONF_NAME_OVERRIDE).strip()
 
     entities = []
 
     try:
         entities.append(
             EthermineInfoSensor(
-                miner_address, currency_name, update_frequency, id_name
+                miner_address, currency_name, update_frequency, id_name, name_override
             )
         )
     except urllib.error.HTTPError as error:
@@ -71,13 +74,16 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
 
 class EthermineInfoSensor(Entity):
     def __init__(
-            self, miner_address, currency_name, update_frequency, id_name
+            self, miner_address, currency_name, update_frequency, id_name, name_override
     ):
         self.data = None
         self.miner_address = miner_address
         self.currency_name = currency_name
         self.update = Throttle(update_frequency)(self._update)
-        self._name = SENSOR_PREFIX + (id_name + " " if len(id_name) > 0 else "") + miner_address
+        if name_override:
+            self._name = SENSOR_PREFIX + name_override
+        else:
+            self._name = SENSOR_PREFIX + (id_name + " " if len(id_name) > 0 else "") + miner_address
         self._icon = "mdi:ethereum"
         self._state = None
         self._active_workers = None
