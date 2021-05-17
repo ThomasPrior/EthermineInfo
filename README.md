@@ -74,6 +74,7 @@ sensor:
   - platform: ethermineinfo
     miner_address: (required) the address of your Ethermine miner
     currency_name: (required) the currency you would like your unpaid balance to be converted to 
+    name_override: (optional) name to identify your wallet instead of your miner address.
 ````
 
 Please note that the Ethermine API accepts the address in two formats:
@@ -97,6 +98,14 @@ sensor:
   - platform: ethermineinfo
     miner_address: "1234567890123456789012345678901234567890"
     currency_name: USD
+```
+
+```
+sensor:
+  - platform: ethermineinfo
+    miner_address: "1234567890123456789012345678901234567890"
+    currency_name: USD
+    name_override: "wallet name"
 ```
 
 Multiple addresses can be configured.
