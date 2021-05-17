@@ -21,7 +21,7 @@ If this has been of use, please consider funding my caffeine habit:
   
       ✔ Reported hash rate
   
-      ❌ Average hash rate
+      ✔ Average hash rate
   
       ✔ Current hash rate
   
