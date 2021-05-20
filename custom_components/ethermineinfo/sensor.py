@@ -13,7 +13,8 @@ from .const import (
     CONF_UPDATE_FREQUENCY,
     CONF_NAME_OVERRIDE,
     SENSOR_PREFIX,
-    API_ENDPOINT,
+    ETHERMINE_API_ENDPOINT,
+    COINGECKO_API_ENDPOINT,
     ATTR_ACTIVE_WORKERS,
     ATTR_CURRENT_HASHRATE,
     ATTR_ERROR,
@@ -28,7 +29,10 @@ from .const import (
     ATTR_AMOUNT,
     ATTR_TXHASH,
     ATTR_PAID_ON,
-    ATTR_AVERAGE_HASHRATE_24h
+    ATTR_AVERAGE_HASHRATE_24h,
+    ATTR_UNCONFIRMED,
+    ATTR_SINGLE_COIN_LOCAL_CURRENCY,
+    ATTR_TOTAL_UNPAID_LOCAL_CURRENCY
 )
 
 from homeassistant.components.sensor import PLATFORM_SCHEMA
@@ -39,9 +43,9 @@ from homeassistant.helpers.entity import Entity
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
     {
-        vol.Required(CONF_CURRENCY_NAME, default="usd"): cv.string,
         vol.Required(CONF_MINER_ADDRESS): cv.string,
         vol.Required(CONF_UPDATE_FREQUENCY, default=1): cv.string,
+        vol.Required(CONF_CURRENCY_NAME, default="usd"): cv.string,
         vol.Optional(CONF_ID, default=""): cv.string,
         vol.Optional(CONF_NAME_OVERRIDE, default=""): cv.string
     }
@@ -53,7 +57,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
 
     id_name = config.get(CONF_ID)
     miner_address = config.get(CONF_MINER_ADDRESS).strip()
-    currency_name = config.get(CONF_CURRENCY_NAME).strip()
+    local_currency = config.get(CONF_CURRENCY_NAME).strip()
     update_frequency = timedelta(minutes=(int(config.get(CONF_UPDATE_FREQUENCY))))
     name_override = config.get(CONF_NAME_OVERRIDE).strip()
 
@@ -62,7 +66,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
     try:
         entities.append(
             EthermineInfoSensor(
-                miner_address, currency_name, update_frequency, id_name, name_override
+                miner_address, local_currency, update_frequency, id_name, name_override
             )
         )
     except urllib.error.HTTPError as error:
@@ -74,11 +78,11 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
 
 class EthermineInfoSensor(Entity):
     def __init__(
-            self, miner_address, currency_name, update_frequency, id_name, name_override
+            self, miner_address, local_currency, update_frequency, id_name, name_override
     ):
         self.data = None
         self.miner_address = miner_address
-        self.currency_name = currency_name
+        self.local_currency = local_currency
         self.update = Throttle(update_frequency)(self._update)
         if name_override:
             self._name = SENSOR_PREFIX + name_override
@@ -102,6 +106,10 @@ class EthermineInfoSensor(Entity):
         self._txhash = None
         self._paid_on = None
         self._average_hashrate_24h = None
+        self._unconfirmed = None
+        self._single_coin_in_local_currency = None
+        self._unpaid_in_local_currency = None
+        
 
     @property
     def name(self):
@@ -126,43 +134,56 @@ class EthermineInfoSensor(Entity):
                 ATTR_REPORTED_HASHRATE: self._reported_hashrate, ATTR_STALE_SHARES: self._stale_shares,
                 ATTR_UNPAID: self._unpaid, ATTR_VALID_SHARES: self._valid_shares, ATTR_START_BLOCK: self._start_block,
                 ATTR_END_BLOCK: self._end_block, ATTR_AMOUNT: self._amount, ATTR_TXHASH: self._txhash,
-                ATTR_PAID_ON: self._paid_on, ATTR_AVERAGE_HASHRATE_24h: self._average_hashrate_24h}
+                ATTR_PAID_ON: self._paid_on, ATTR_AVERAGE_HASHRATE_24h: self._average_hashrate_24h,
+                ATTR_UNCONFIRMED: self._unconfirmed, ATTR_SINGLE_COIN_LOCAL_CURRENCY: self._single_coin_in_local_currency,
+                ATTR_TOTAL_UNPAID_LOCAL_CURRENCY: self._unpaid_in_local_currency}
 
     def _update(self):
         dashboardurl = (
-                API_ENDPOINT
+                ETHERMINE_API_ENDPOINT
                 + self.miner_address
                 + "/dashboard"
         )
         payouturl = (
-                API_ENDPOINT
+                ETHERMINE_API_ENDPOINT
                 + self.miner_address
                 + "/payouts"
         )
 
         currentstatsurl = (
-                API_ENDPOINT
+                ETHERMINE_API_ENDPOINT
                 + self.miner_address
                 + "/currentStats"
         )
+        
+        coingeckourl = (
+                COINGECKO_API_ENDPOINT
+                + self.local_currency
+        )
 
-        # sending get request to dashboard endpoint
+        # sending get request to Ethermine dashboard endpoint
         r = requests.get(url=dashboardurl)
         # extracting response json
         self.data = r.json()
         dashboarddata = self.data
 
-        # sending get request to dashboard endpoint
+        # sending get request to Ethermine payout endpoint
         r2 = requests.get(url=payouturl)
         # extracting response json
         self.data2 = r2.json()
         payoutdata = self.data2
 
-        # sending get request to current stats enpoint
+        # sending get request to Ethermine current stats endpoint
         r3 = requests.get(url=currentstatsurl)
         # extracting response json
         self.data3 = r3.json()
         currentstatsdata = self.data3
+        
+        # sending get request to Congecko API endpoint
+        r4 = requests.get(url=coingeckourl)
+        # extracting response json
+        self.data4 = r4.json()
+        coingeckodata = self.data4
 
         try:
             if dashboarddata:
@@ -178,6 +199,8 @@ class EthermineInfoSensor(Entity):
                 self._stale_shares = r.json()['data']['currentStatistics']['staleShares']
                 self._unpaid = r.json()['data']['currentStatistics']['unpaid']
                 self._valid_shares = r.json()['data']['currentStatistics']['validShares']
+                self._average_hashrate_24h = r3.json()['data']['averageHashrate']
+                self._unconfirmed = r3.json()['data']['unconfirmed']
                 if len(r2.json()['data']):
                     self._start_block = r2.json()['data'][0]['start']
                     self._end_block = r2.json()['data'][0]['end']
@@ -185,7 +208,10 @@ class EthermineInfoSensor(Entity):
                     self._txhash = r2.json()['data'][0]['txHash']
                     self._paid_on = datetime.fromtimestamp(int(r2.json()['data'][0]['paidOn'])).strftime(
                         '%d-%m-%Y %H:%M')
-                self._average_hashrate_24h = r3.json()['data']['averageHashrate']
+                if len(r4.json()['ethereum']):
+                    self._single_coin_in_local_currency = r4.json()['ethereum'][self.local_currency]
+                    calculate_unpaid = self._unpaid/1000000000000000000 * self._single_coin_in_local_currency
+                    self._unpaid_in_local_currency = round(calculate_unpaid,2)
             else:
                 raise ValueError()
 
