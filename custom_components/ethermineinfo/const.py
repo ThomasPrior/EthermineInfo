@@ -23,7 +23,11 @@ ATTR_AMOUNT = "amount"
 ATTR_TXHASH = "txhash"
 ATTR_PAID_ON = "paid_on"
 ATTR_AVERAGE_HASHRATE_24h = "average_hashrate_24h"
+ATTR_UNCONFIRMED = "unconfirmed"
+ATTR_SINGLE_COIN_LOCAL_CURRENCY = "single_coin_in_local_currency"
+ATTR_TOTAL_UNPAID_LOCAL_CURRENCY = "unpaid_in_local_currency"
 
-API_ENDPOINT = "https://api.ethermine.org/miner/"
+ETHERMINE_API_ENDPOINT = "https://api.ethermine.org/miner/"
+COINGECKO_API_ENDPOINT = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies="
 
 _LOGGER = logging.getLogger(__name__)
