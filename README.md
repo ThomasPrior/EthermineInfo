@@ -17,7 +17,7 @@ If this has been of use, please consider funding my caffeine habit:
   
       ✔ Unpaid balance
   
-      ❌ Unconfirmed balance
+      ✔ Unconfirmed balance
   
       ✔ Reported hash rate
   
@@ -33,7 +33,7 @@ If this has been of use, please consider funding my caffeine habit:
   
       ✔ Active workers
       
-      ❌ Balance in local currency
+      ✔ Balance in local currency
      
   * Payouts
   
@@ -43,7 +43,7 @@ If this has been of use, please consider funding my caffeine habit:
   
       ✔ Transaction hash
       
-      ❌ Value in local currency
+      ✔ Value in local currency
 
 ## Things you should know
 
