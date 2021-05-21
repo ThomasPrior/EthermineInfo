@@ -203,7 +203,7 @@ class EthermineInfoSensor(Entity):
                 self._valid_shares = r.json()['data']['currentStatistics']['validShares']
                 self._average_hashrate_24h = r3.json()['data']['averageHashrate']
                 self._unconfirmed = r3.json()['data']['unconfirmed']
-                self._coins_per_minute = r3.json()['data']['coinsPerMin']
+                self._coins_per_minute = '{:.20f}'.format(r3.json()['data']['coinsPerMin'])
                 if len(r2.json()['data']):
                     self._start_block = r2.json()['data'][0]['start']
                     self._end_block = r2.json()['data'][0]['end']
