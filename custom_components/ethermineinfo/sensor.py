@@ -32,7 +32,8 @@ from .const import (
     ATTR_AVERAGE_HASHRATE_24h,
     ATTR_UNCONFIRMED,
     ATTR_SINGLE_COIN_LOCAL_CURRENCY,
-    ATTR_TOTAL_UNPAID_LOCAL_CURRENCY
+    ATTR_TOTAL_UNPAID_LOCAL_CURRENCY,
+    ATTR_COINS_PER_MINUTE
 )
 
 from homeassistant.components.sensor import PLATFORM_SCHEMA
@@ -109,6 +110,7 @@ class EthermineInfoSensor(Entity):
         self._unconfirmed = None
         self._single_coin_in_local_currency = None
         self._unpaid_in_local_currency = None
+        self._coins_per_min
         
 
     @property
@@ -136,7 +138,7 @@ class EthermineInfoSensor(Entity):
                 ATTR_END_BLOCK: self._end_block, ATTR_AMOUNT: self._amount, ATTR_TXHASH: self._txhash,
                 ATTR_PAID_ON: self._paid_on, ATTR_AVERAGE_HASHRATE_24h: self._average_hashrate_24h,
                 ATTR_UNCONFIRMED: self._unconfirmed, ATTR_SINGLE_COIN_LOCAL_CURRENCY: self._single_coin_in_local_currency,
-                ATTR_TOTAL_UNPAID_LOCAL_CURRENCY: self._unpaid_in_local_currency}
+                ATTR_TOTAL_UNPAID_LOCAL_CURRENCY: self._unpaid_in_local_currency, ATTR_COINS_PER_MINUTE: self._coins_per_minute}
 
     def _update(self):
         dashboardurl = (
@@ -173,7 +175,7 @@ class EthermineInfoSensor(Entity):
         self.data2 = r2.json()
         payoutdata = self.data2
 
-        # sending get request to Ethermine current stats endpoint
+        # sending get request to Ethermine currentstats endpoint
         r3 = requests.get(url=currentstatsurl)
         # extracting response json
         self.data3 = r3.json()
@@ -201,6 +203,7 @@ class EthermineInfoSensor(Entity):
                 self._valid_shares = r.json()['data']['currentStatistics']['validShares']
                 self._average_hashrate_24h = r3.json()['data']['averageHashrate']
                 self._unconfirmed = r3.json()['data']['unconfirmed']
+                self._coins_per_minute = r3.json()['data']['coinsPerMin']
                 if len(r2.json()['data']):
                     self._start_block = r2.json()['data'][0]['start']
                     self._end_block = r2.json()['data'][0]['end']
