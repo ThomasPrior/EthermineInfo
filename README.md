@@ -125,7 +125,7 @@ Unpaid amount:
 
 ## How does it look?
 
-![image](https://user-images.githubusercontent.com/34111848/115997170-18a74100-a5da-11eb-8975-d14a46a1cca4.png)
+![image](https://user-images.githubusercontent.com/34111848/119135501-6aef4c80-ba36-11eb-9006-dc756af23978.png)
 
 ## Discussion
 
