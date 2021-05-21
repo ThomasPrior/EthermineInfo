@@ -16,7 +16,6 @@ from .const import (
     API_ENDPOINT,
     ATTR_ACTIVE_WORKERS,
     ATTR_CURRENT_HASHRATE,
-    ATTR_ERROR,
     ATTR_INVALID_SHARES,
     ATTR_LAST_UPDATE,
     ATTR_REPORTED_HASHRATE,
@@ -95,7 +94,6 @@ class EthermineInfoSensor(Entity):
         self._unpaid = None
         self._valid_shares = None
         self._unit_of_measurement = "\u200b"
-        self._error = None
         self._start_block = None
         self._end_block = None
         self._amount = None
@@ -122,7 +120,7 @@ class EthermineInfoSensor(Entity):
     @property
     def device_state_attributes(self):
         return {ATTR_ACTIVE_WORKERS: self._active_workers, ATTR_CURRENT_HASHRATE: self._current_hashrate,
-                ATTR_ERROR: self._error, ATTR_INVALID_SHARES: self._invalid_shares, ATTR_LAST_UPDATE: self._last_update,
+                ATTR_INVALID_SHARES: self._invalid_shares, ATTR_LAST_UPDATE: self._last_update,
                 ATTR_REPORTED_HASHRATE: self._reported_hashrate, ATTR_STALE_SHARES: self._stale_shares,
                 ATTR_UNPAID: self._unpaid, ATTR_VALID_SHARES: self._valid_shares, ATTR_START_BLOCK: self._start_block,
                 ATTR_END_BLOCK: self._end_block, ATTR_AMOUNT: self._amount, ATTR_TXHASH: self._txhash,
@@ -166,7 +164,6 @@ class EthermineInfoSensor(Entity):
 
         try:
             if dashboarddata:
-                self._error = False
                 # Set the values of the sensor
                 self._last_update = datetime.today().strftime("%d-%m-%Y %H:%M")
                 self._state = r.json()['data']['currentStatistics']['activeWorkers']
@@ -191,5 +188,4 @@ class EthermineInfoSensor(Entity):
 
         except ValueError:
             self._state = None
-            self._last_update = datetime.today().strftime("%d-%m-%Y %H:%M")
-            self._error = True
+            self._last_update = datetime.today().strftime("%d-%m-%Y %H:%M") 
