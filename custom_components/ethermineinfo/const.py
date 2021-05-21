@@ -26,6 +26,7 @@ ATTR_AVERAGE_HASHRATE_24h = "average_hashrate_24h"
 ATTR_UNCONFIRMED = "unconfirmed"
 ATTR_SINGLE_COIN_LOCAL_CURRENCY = "single_coin_in_local_currency"
 ATTR_TOTAL_UNPAID_LOCAL_CURRENCY = "unpaid_in_local_currency"
+ATTR_COINS_PER_MINUTE = "coins_per_minute"
 
 ETHERMINE_API_ENDPOINT = "https://api.ethermine.org/miner/"
 COINGECKO_API_ENDPOINT = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies="
