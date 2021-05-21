@@ -110,7 +110,7 @@ class EthermineInfoSensor(Entity):
         self._unconfirmed = None
         self._single_coin_in_local_currency = None
         self._unpaid_in_local_currency = None
-        self._coins_per_min
+        self._coins_per_minute = None
         
 
     @property
