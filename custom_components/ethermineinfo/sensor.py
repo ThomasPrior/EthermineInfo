@@ -57,7 +57,7 @@ def setup_platform(hass, config, add_entities, discovery_info=None):
 
     id_name = config.get(CONF_ID)
     miner_address = config.get(CONF_MINER_ADDRESS).strip()
-    local_currency = config.get(CONF_CURRENCY_NAME).strip()
+    local_currency = config.get(CONF_CURRENCY_NAME).strip().lower()
     update_frequency = timedelta(minutes=(int(config.get(CONF_UPDATE_FREQUENCY))))
     name_override = config.get(CONF_NAME_OVERRIDE).strip()
 
