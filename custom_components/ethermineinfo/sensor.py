@@ -138,7 +138,7 @@ class EthermineInfoSensor(Entity):
                 ATTR_END_BLOCK: self._end_block, ATTR_AMOUNT: self._amount, ATTR_TXHASH: self._txhash,
                 ATTR_PAID_ON: self._paid_on, ATTR_AVERAGE_HASHRATE_24h: self._average_hashrate_24h,
                 ATTR_UNCONFIRMED: self._unconfirmed, ATTR_SINGLE_COIN_LOCAL_CURRENCY: self._single_coin_in_local_currency,
-                ATTR_TOTAL_UNPAID_LOCAL_CURRENCY: self._unpaid_in_local_currency, ATTR_COINS_PER_MINUTE: self._coins_per_minute}
+                ATTR_TOTAL_UNPAID_LOCAL_CURRENCY: self._unpaid_in_local_currency, ATTR_COINS_PER_MINUTE: self._coins_per_minute }
 
     def _update(self):
         dashboardurl = (
