@@ -10,7 +10,6 @@ SENSOR_PREFIX = "EthermineInfo "
 
 ATTR_ACTIVE_WORKERS = "active_workers"
 ATTR_CURRENT_HASHRATE = "current_hashrate"
-ATTR_ERROR = "error"
 ATTR_INVALID_SHARES = "invalid_shares"
 ATTR_LAST_UPDATE = "last_update"
 ATTR_REPORTED_HASHRATE = "reported_hashrate"
