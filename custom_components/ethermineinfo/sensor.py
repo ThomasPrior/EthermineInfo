@@ -29,7 +29,6 @@ from .const import (
     ATTR_TXHASH,
     ATTR_PAID_ON,
     ATTR_AVERAGE_HASHRATE_24h,
-    ATTR_UNCONFIRMED,
     ATTR_SINGLE_COIN_LOCAL_CURRENCY,
     ATTR_TOTAL_UNPAID_LOCAL_CURRENCY,
     ATTR_COINS_PER_MINUTE
@@ -105,7 +104,6 @@ class EthermineInfoSensor(Entity):
         self._txhash = None
         self._paid_on = None
         self._average_hashrate_24h = None
-        self._unconfirmed = None
         self._single_coin_in_local_currency = None
         self._unpaid_in_local_currency = None
         self._coins_per_minute = None
@@ -135,7 +133,7 @@ class EthermineInfoSensor(Entity):
                 ATTR_UNPAID: self._unpaid, ATTR_VALID_SHARES: self._valid_shares, ATTR_START_BLOCK: self._start_block,
                 ATTR_END_BLOCK: self._end_block, ATTR_AMOUNT: self._amount, ATTR_TXHASH: self._txhash,
                 ATTR_PAID_ON: self._paid_on, ATTR_AVERAGE_HASHRATE_24h: self._average_hashrate_24h,
-                ATTR_UNCONFIRMED: self._unconfirmed, ATTR_SINGLE_COIN_LOCAL_CURRENCY: self._single_coin_in_local_currency,
+                ATTR_SINGLE_COIN_LOCAL_CURRENCY: self._single_coin_in_local_currency,
                 ATTR_TOTAL_UNPAID_LOCAL_CURRENCY: self._unpaid_in_local_currency, ATTR_COINS_PER_MINUTE: self._coins_per_minute }
 
     def _update(self):
