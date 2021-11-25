@@ -8,16 +8,12 @@ If this has been of use, please consider funding my caffeine habit:
 
 <a href="https://www.buymeacoffee.com/tomprior" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png"></a>
 
-# Goals
+# Functionality
 
-* Learn some more Python 🐍
-* Make my first tangible code contribution to the HomeAssistant community
 * Create sensor items for Ethermine items:
   * Current statistics
   
       ✔ Unpaid balance
-  
-      ✔ Unconfirmed balance
   
       ✔ Reported hash rate
   
@@ -45,12 +41,22 @@ If this has been of use, please consider funding my caffeine habit:
       
       ✔ Value in local currency
 
-## Things you should know
-
-* I'm new at this, things might not work right away, or at all. Please be kind!
+## Things you should know about EthermineInfo
+* The Ethermine API has been subject to change - there may be occaisions where a code change is required before the component will work again.
 * There are limits on how many requests can be made to Ethermine's API and therefore the data retrieved by EthermineInfo will be updated periodically and may be out of date by the time you look at it.
 * Please do not use EthermineInfo in isolation to make decisions about your cryptocurrency holdings.
 * EthermineInfo only reads the statistics of the provided miner.
+
+## Pre-requisite knowledge
+
+Before downloading and configuring EthermineInfo, please ensure you are familiar with the following items:
+
+* HomeAssistant's configuration file [LINK](https://www.home-assistant.io/docs/configuration/)
+* YAML syntax [LINK](https://www.home-assistant.io/docs/configuration/yaml/)
+* Installation of custom components via:
+  * HACS [LINK](https://hacs.xyz/docs/setup/prerequisites)
+  * Manual custom component installation
+* Adding template sensors to your configuration [LINK](https://www.home-assistant.io/integrations/template/)
 
 ## Installation
 
@@ -127,9 +133,17 @@ Unpaid amount:
 
 ![image](https://user-images.githubusercontent.com/34111848/119135501-6aef4c80-ba36-11eb-9006-dc756af23978.png)
 
+Some rather pretty graphs are possible with the [mini-graph-card](https://github.com/kalkih/mini-graph-card):
+
+![image](https://user-images.githubusercontent.com/34111848/143507616-a8bac318-5696-4a8a-bffe-7f4d14c8f5e5.png)
+
 ## Discussion
 
 [Talk about EthermineInfo here](https://community.home-assistant.io/t/my-first-custom-component-ethermineinfo/302734)
+
+[Post issues with EthermineInfo here](https://github.com/ThomasPrior/EthermineInfo/issues)
+
+Issues should be posted with logs and relevant, redacted excerpts from your configuration.yaml file to ensure that help can be given most effectively.
 
 Pull requests and constructive criticism are always welcome.
 
