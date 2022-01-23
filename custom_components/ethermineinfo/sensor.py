@@ -160,53 +160,53 @@ class EthermineInfoSensor(Entity):
         )
 
         # sending get request to Ethermine dashboard endpoint
-        r = requests.get(url=dashboardurl)
+        r = requests.get(dashboardurl).json()
         # extracting response json
-        self.data = r.json()
+        self.data = r
         dashboarddata = self.data
 
         # sending get request to Ethermine payout endpoint
-        r2 = requests.get(url=payouturl)
+        r2 = requests.get(payouturl).json()
         # extracting response json
-        self.data2 = r2.json()
+        self.data2 = r2
         payoutdata = self.data2
 
         # sending get request to Ethermine currentstats endpoint
-        r3 = requests.get(url=currentstatsurl)
+        r3 = requests.get(currentstatsurl).json()
         # extracting response json
-        self.data3 = r3.json()
+        self.data3 = r3
         currentstatsdata = self.data3
         
         # sending get request to Congecko API endpoint
-        r4 = requests.get(url=coingeckourl)
+        r4 = requests.get(url=coingeckourl).json()
         # extracting response json
-        self.data4 = r4.json()
+        self.data4 = r4
         coingeckodata = self.data4
 
         try:
             if dashboarddata:
                 # Set the values of the sensor
                 self._last_update = datetime.today().strftime("%d-%m-%Y %H:%M")
-                self._state = r.json()['data']['currentStatistics']['activeWorkers']
+                self._state = r['data']['currentStatistics']['activeWorkers']
                 # set the attributes of the sensor
-                self._active_workers = r.json()['data']['currentStatistics']['activeWorkers']
-                self._current_hashrate = r.json()['data']['currentStatistics']['currentHashrate']
-                self._invalid_shares = r.json()['data']['currentStatistics']['invalidShares']
-                self._reported_hashrate = r.json()['data']['currentStatistics']['reportedHashrate']
-                self._stale_shares = r.json()['data']['currentStatistics']['staleShares']
-                self._unpaid = r.json()['data']['currentStatistics']['unpaid']
-                self._valid_shares = r.json()['data']['currentStatistics']['validShares']
-                self._average_hashrate_24h = r3.json()['data']['averageHashrate']
-                self._coins_per_minute = '{:.20f}'.format(r3.json()['data']['coinsPerMin'])
-                if len(r2.json()['data']):
-                    self._start_block = r2.json()['data'][0]['start']
-                    self._end_block = r2.json()['data'][0]['end']
-                    self._amount = r2.json()['data'][0]['amount']
-                    self._txhash = r2.json()['data'][0]['txHash']
-                    self._paid_on = datetime.fromtimestamp(int(r2.json()['data'][0]['paidOn'])).strftime(
+                self._active_workers = r['data']['currentStatistics']['activeWorkers']
+                self._current_hashrate = r['data']['currentStatistics']['currentHashrate']
+                self._invalid_shares = r['data']['currentStatistics']['invalidShares']
+                self._reported_hashrate = r['data']['currentStatistics']['reportedHashrate']
+                self._stale_shares = r['data']['currentStatistics']['staleShares']
+                self._unpaid = r['data']['currentStatistics']['unpaid']
+                self._valid_shares = r['data']['currentStatistics']['validShares']
+                self._average_hashrate_24h = r3['data']['averageHashrate']
+                self._coins_per_minute = '{:.20f}'.format(r3['data']['coinsPerMin'])
+                if len(r2['data']):
+                    self._start_block = r2['data'][0]['start']
+                    self._end_block = r2['data'][0]['end']
+                    self._amount = r2['data'][0]['amount']
+                    self._txhash = r2['data'][0]['txHash']
+                    self._paid_on = datetime.fromtimestamp(int(r2['data'][0]['paidOn'])).strftime(
                         '%d-%m-%Y %H:%M')
-                if len(r4.json()['ethereum']):
-                    self._single_coin_in_local_currency = r4.json()['ethereum'][self.local_currency]
+                if len(r4['ethereum']):
+                    self._single_coin_in_local_currency = r4['ethereum'][self.local_currency]
                     calculate_unpaid = self._unpaid/1000000000000000000 * self._single_coin_in_local_currency
                     self._unpaid_in_local_currency = round(calculate_unpaid,2)
             else:
