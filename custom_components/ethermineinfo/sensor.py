@@ -31,7 +31,8 @@ from .const import (
     ATTR_AVERAGE_HASHRATE_24h,
     ATTR_SINGLE_COIN_LOCAL_CURRENCY,
     ATTR_TOTAL_UNPAID_LOCAL_CURRENCY,
-    ATTR_COINS_PER_MINUTE
+    ATTR_COINS_PER_MINUTE,
+    ATTR_CURRENT_HASHRATE_MH_SEC
 )
 
 from homeassistant.components.sensor import PLATFORM_SCHEMA
@@ -107,7 +108,8 @@ class EthermineInfoSensor(Entity):
         self._single_coin_in_local_currency = None
         self._unpaid_in_local_currency = None
         self._coins_per_minute = None
-        
+        self._current_hashrate_mh_sec = None
+
 
     @property
     def name(self):
@@ -126,7 +128,7 @@ class EthermineInfoSensor(Entity):
         return self._unit_of_measurement
 
     @property
-    def device_state_attributes(self):
+    def extra_state_attributes(self):
         return {ATTR_ACTIVE_WORKERS: self._active_workers, ATTR_CURRENT_HASHRATE: self._current_hashrate,
                 ATTR_INVALID_SHARES: self._invalid_shares, ATTR_LAST_UPDATE: self._last_update,
                 ATTR_REPORTED_HASHRATE: self._reported_hashrate, ATTR_STALE_SHARES: self._stale_shares,
@@ -134,7 +136,9 @@ class EthermineInfoSensor(Entity):
                 ATTR_END_BLOCK: self._end_block, ATTR_AMOUNT: self._amount, ATTR_TXHASH: self._txhash,
                 ATTR_PAID_ON: self._paid_on, ATTR_AVERAGE_HASHRATE_24h: self._average_hashrate_24h,
                 ATTR_SINGLE_COIN_LOCAL_CURRENCY: self._single_coin_in_local_currency,
-                ATTR_TOTAL_UNPAID_LOCAL_CURRENCY: self._unpaid_in_local_currency, ATTR_COINS_PER_MINUTE: self._coins_per_minute }
+                ATTR_TOTAL_UNPAID_LOCAL_CURRENCY: self._unpaid_in_local_currency,
+                ATTR_CURRENT_HASHRATE_MH_SEC: self._current_hashrate_mh_sec,
+                ATTR_COINS_PER_MINUTE: self._coins_per_minute }
 
     def _update(self):
         dashboardurl = (
@@ -153,7 +157,7 @@ class EthermineInfoSensor(Entity):
                 + self.miner_address
                 + "/currentStats"
         )
-        
+
         coingeckourl = (
                 COINGECKO_API_ENDPOINT
                 + self.local_currency
@@ -176,7 +180,7 @@ class EthermineInfoSensor(Entity):
         # extracting response json
         self.data3 = r3
         currentstatsdata = self.data3
-        
+
         # sending get request to Congecko API endpoint
         r4 = requests.get(url=coingeckourl).json()
         # extracting response json
@@ -184,7 +188,9 @@ class EthermineInfoSensor(Entity):
         coingeckodata = self.data4
 
         try:
-            if dashboarddata:
+            if len(r['data']['workers']) == 0:
+                raise ValueError()
+            if len(r['data']['workers']) >= 1:
                 # Set the values of the sensor
                 self._last_update = datetime.today().strftime("%d-%m-%Y %H:%M")
                 self._state = r['data']['currentStatistics']['activeWorkers']
@@ -198,6 +204,8 @@ class EthermineInfoSensor(Entity):
                 self._valid_shares = r['data']['currentStatistics']['validShares']
                 self._average_hashrate_24h = r3['data']['averageHashrate']
                 self._coins_per_minute = '{:.20f}'.format(r3['data']['coinsPerMin'])
+                calculate_hashrate_mh_sec = self._current_hashrate / 1000000
+                self._current_hashrate_mh_sec = round(calculate_hashrate_mh_sec, 2)
                 if len(r2['data']):
                     self._start_block = r2['data'][0]['start']
                     self._end_block = r2['data'][0]['end']
@@ -213,5 +221,6 @@ class EthermineInfoSensor(Entity):
                 raise ValueError()
 
         except ValueError:
-            self._state = None
-            self._last_update = datetime.today().strftime("%d-%m-%Y %H:%M") 
+            self._state = 0
+            self._active_workers = 0
+            self._last_update = datetime.today().strftime("%d-%m-%Y %H:%M")
