@@ -8,6 +8,7 @@ CONF_NAME_OVERRIDE = "name_override"
 
 SENSOR_PREFIX = "EthermineInfo "
 
+ATTR_CURRENT_HASHRATE_MH_SEC = "current_hashrate_mh_sec"
 ATTR_ACTIVE_WORKERS = "active_workers"
 ATTR_CURRENT_HASHRATE = "current_hashrate"
 ATTR_INVALID_SHARES = "invalid_shares"
@@ -25,6 +26,7 @@ ATTR_AVERAGE_HASHRATE_24h = "average_hashrate_24h"
 ATTR_SINGLE_COIN_LOCAL_CURRENCY = "single_coin_in_local_currency"
 ATTR_TOTAL_UNPAID_LOCAL_CURRENCY = "unpaid_in_local_currency"
 ATTR_COINS_PER_MINUTE = "coins_per_minute"
+
 
 ETHERMINE_API_ENDPOINT = "https://api.ethermine.org/miner/"
 COINGECKO_API_ENDPOINT = "https://api.coingecko.com/api/v3/simple/price?ids=ethereum&vs_currencies="
