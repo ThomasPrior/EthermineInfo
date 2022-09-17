@@ -1,4 +1,7 @@
 # EthermineInfo
+
+⚠️ This repository is archived as Ethermine.org has suspended Ethereum mining indefinitely. [Please refer to their announcement for more information.](https://ethermine.org/announcement)
+
 [![hacs_badge](https://img.shields.io/badge/HACS-Default-orange.svg?style=for-the-badge)](https://github.com/custom-components/hacs)
 ## A custom component for [HomeAssistant](https://github.com/home-assistant/core) 
 
